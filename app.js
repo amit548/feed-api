@@ -16,6 +16,13 @@ const MONGODB_URI = process.env.MONGODB_URI || 'http://localhost:27017/feed';
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, PATCH, GET, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'content-Type, Authorization');
+  next();
+});
+
 app.use('/user', userRoute);
 
 app.use((error, req, res, next) => {

@@ -4,8 +4,6 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
 
-const ACCESS_TOKEN = process.env.ACCESS_TOKEN || 'someaccesstokenkey';
-
 const register = (req, res, next) => {
   const errors = validationResult(req);
   const { name, email, password } = req.body;
@@ -59,9 +57,11 @@ const login = (req, res, next) => {
         email: userDoc.email,
         userId: userDoc._id
       };
-      return jwt.sign(userPayload, ACCESS_TOKEN, { expiresIn: '1h' });
+      return jwt.sign(userPayload, process.env.ACCESS_TOKEN, {
+        expiresIn: '1h'
+      });
     })
-    .then(accessToken => res.json({ userId: userDoc._id, accessToken }))
+    .then(accessToken => res.json({ userId: userDoc._id, token: accessToken }))
     .catch(err => {
       if (!err.statusCode) {
         err.statusCode = 500;
