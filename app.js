@@ -18,6 +18,16 @@ app.use(morgan('dev'));
 
 app.use('/user', userRoute);
 
+app.use((error, req, res, next) => {
+  const status = error.statusCode || 500;
+  const message = error.message;
+  const body = error.body;
+  res.status(status).json({
+    message,
+    body
+  });
+});
+
 mongoose
   .connect(MONGODB_URI, {
     useFindAndModify: false,
