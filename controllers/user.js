@@ -1,5 +1,9 @@
-const getPosts = (req, res, next) => {
+const register = (req, res, next) => {
   res.status(200).json({ message: 'Hello' });
 };
 
-module.exports = { getPosts };
+const login = (req, res, next) => {
+  res.status(200).json({ message: 'Hello' });
+};
+
+module.exports = { register, login };
